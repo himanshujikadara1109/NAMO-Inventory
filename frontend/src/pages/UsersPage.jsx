@@ -11,6 +11,7 @@ const EMPTY = { name: '', email: '', password: '', role: 'staff' };
 
 export default function UsersPage() {
   const { user: me } = useAuth();
+
   const { toast } = useToast();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
