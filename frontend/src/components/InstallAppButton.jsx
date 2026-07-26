@@ -10,6 +10,7 @@ export default function InstallAppButton() {
     const handler = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      window.deferredPwaPrompt = e;
     };
 
     window.addEventListener('beforeinstallprompt', handler);
@@ -17,11 +18,13 @@ export default function InstallAppButton() {
   }, []);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
+    const promptEvent = deferredPrompt || window.deferredPwaPrompt;
+    if (promptEvent) {
+      promptEvent.prompt();
+      const { outcome } = await promptEvent.userChoice;
       if (outcome === 'accepted') {
         setDeferredPrompt(null);
+        window.deferredPwaPrompt = null;
         return;
       }
     }

@@ -3,16 +3,26 @@ import Modal from './Modal';
 import './DownloadModal.css';
 
 export default function DownloadModal({ open, onClose }) {
-  const handleAndroidInstall = () => {
-    // Open PWABuilder Android APK generator or trigger PWA prompt
-    window.open('https://www.pwabuilder.com', '_blank');
+  const handleAndroidInstall = async () => {
+    if (window.deferredPwaPrompt) {
+      window.deferredPwaPrompt.prompt();
+      const { outcome } = await window.deferredPwaPrompt.userChoice;
+      if (outcome === 'accepted') {
+        window.deferredPwaPrompt = null;
+        onClose();
+        return;
+      }
+    }
+    // Pre-fill Vercel URL into PWABuilder generator
+    const siteUrl = window.location.origin;
+    window.open(`https://www.pwabuilder.com/url?url=${encodeURIComponent(siteUrl)}`, '_blank');
   };
 
   const handleWindowsDownload = () => {
-    // Trigger batch app installer script download
+    const siteUrl = window.location.origin;
     const element = document.createElement("a");
     const file = new Blob([
-      `@echo off\r\ntitle NAMO IMS Installer\r\necho Installing NAMO IMS Desktop Application...\r\nstart msedge --app=http://10.235.170.195:5173\r\nexit\r\n`
+      `@echo off\r\ntitle NAMO IMS Desktop App\r\necho Launching NAMO IMS Standalone Application...\r\nstart msedge --app=${siteUrl} --name="NAMO IMS"\r\nexit\r\n`
     ], {type: 'text/plain'});
     element.href = URL.createObjectURL(file);
     element.download = "Install-NAMO-IMS-Desktop.bat";
@@ -29,7 +39,7 @@ export default function DownloadModal({ open, onClose }) {
       size="lg"
     >
       <p className="text-muted" style={{ fontSize: 13, marginBottom: 12 }}>
-        Select your device platform to download and install the native application package:
+        Select your device platform to install the native application:
       </p>
 
       <div className="dl-grid">
@@ -40,10 +50,10 @@ export default function DownloadModal({ open, onClose }) {
           </div>
           <div className="dl-title">Android Phone & Tablet</div>
           <div className="dl-desc">
-            Download standalone Android App package (.APK) for any Android phone or tablet.
+            Install standalone Mobile App on your Android phone or generate .APK file.
           </div>
           <button className="btn btn-primary dl-btn" onClick={handleAndroidInstall} id="btn-dl-android">
-            <Download size={14} /> Download APK
+            <Download size={14} /> Install / APK
           </button>
         </div>
 
@@ -74,7 +84,7 @@ export default function DownloadModal({ open, onClose }) {
           </div>
           <div className="dl-title">Windows PC & Laptop</div>
           <div className="dl-desc">
-            Download Desktop Installer (.BAT / .EXE) for Windows 10 & 11 PCs.
+            Download Standalone Desktop Software (.BAT / .EXE) for Windows PC.
           </div>
           <button className="btn btn-primary dl-btn" onClick={handleWindowsDownload} id="btn-dl-win">
             <Download size={14} /> Download Desktop App
