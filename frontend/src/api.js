@@ -3,7 +3,8 @@
  * Wraps fetch with auth headers, token refresh, and base URL handling.
  */
 
-const BASE = '/api';
+const API_HOST = import.meta.env.VITE_API_URL || '';
+const BASE = `${API_HOST}/api`;
 
 let _accessToken = null;
 let _refreshing  = null; // promise guard for concurrent refresh
