@@ -3,7 +3,7 @@
  * Wraps fetch with auth headers, token refresh, and base URL handling.
  */
 
-const API_HOST = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://namo-ims-backend.onrender.com' : '');
+const API_HOST = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? 'https://namo-inventory.onrender.com' : '');
 const BASE = `${API_HOST}/api`;
 
 let _accessToken = null;

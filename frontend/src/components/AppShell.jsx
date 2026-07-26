@@ -86,7 +86,7 @@ export default function AppShell() {
     let ws = null;
     try {
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsHost = import.meta.env.PROD ? 'namo-ims-backend.onrender.com' : `${window.location.hostname}:3001`;
+      const wsHost = import.meta.env.PROD ? 'namo-inventory.onrender.com' : `${window.location.hostname}:3001`;
       const wsUrl = `${protocol}//${wsHost}?companyId=${company?.companyId}`;
       ws = new WebSocket(wsUrl);
 
