@@ -1,0 +1,149 @@
+/* ─── Shell ───────────────────────────────────────────────────────────────────── */
+.shell { display: flex; height: 100vh; overflow: hidden; background: var(--bg); }
+
+/* ─── Sidebar — macOS Finder sidebar ────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-right: 0.5px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 200;
+}
+
+/* Brand / App icon area */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 14px 14px;
+  border-bottom: 0.5px solid var(--sidebar-border);
+}
+
+.brand-icon {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #1a8aff 0%, #0071e3 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,113,227,0.38);
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+.brand-company {
+  font-size: 11px;
+  color: var(--text-2);
+  max-width: 160px;
+}
+
+/* ─── Nav items ─────────────────────────────────────────────────────────────── */
+.sidebar-nav {
+  flex: 1;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--r);
+  background: transparent;
+  border: none;
+  color: var(--sidebar-text);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  font-family: inherit;
+  transition: background var(--t-s), color var(--t-s);
+  width: 100%;
+  text-align: left;
+  letter-spacing: -0.1px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.nav-item:hover {
+  background: var(--sidebar-hover);
+  color: var(--text);
+}
+.nav-item.active {
+  background: rgba(0,113,227,0.13);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+
+/* ─── Sidebar footer ─────────────────────────────────────────────────────────── */
+.sidebar-footer {
+  padding: 10px 8px;
+  border-top: 0.5px solid var(--sidebar-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-user { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+
+/* ─── Main area ──────────────────────────────────────────────────────────────── */
+.shell-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+/* ─── Topbar — macOS window chrome ──────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  height: 48px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  flex-shrink: 0;
+}
+
+.page-title { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.2px; }
+.topbar-avatar { width: 26px; height: 26px; font-size: 10px; }
+.mobile-menu-btn { display: none; }
+
+/* ─── Page content ───────────────────────────────────────────────────────────── */
+.page-content { flex: 1; overflow-y: auto; background: var(--bg); padding: 22px 24px; }
+
+/* ─── Mobile ─────────────────────────────────────────────────────────────────── */
+.sidebar-overlay { display: none; }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed; left: 0; top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay {
+    display: block; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.28);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 150;
+  }
+  .mobile-menu-btn { display: flex; }
+  .page-content { padding: 14px 16px; }
+}

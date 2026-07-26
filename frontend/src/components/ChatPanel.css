@@ -1,0 +1,215 @@
+/* ─── macOS Messages Chat Panel ─────────────────────────────────────────────── */
+
+.chat-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+}
+
+.chat-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background: rgba(245,245,247,0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-left: 0.5px solid rgba(0,0,0,0.12);
+  box-shadow: var(--shadow-lg);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  animation: slide-in-chat 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slide-in-chat {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* Header */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  flex-shrink: 0;
+}
+
+.chat-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.chat-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #28cd41;
+  box-shadow: 0 0 6px rgba(40,205,65,0.4);
+}
+
+/* Message List */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Message Bubble */
+.chat-msg-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+}
+
+.chat-msg-row.mine {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat-msg-row.other {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.chat-msg-meta {
+  font-size: 10px;
+  color: var(--text-2);
+  margin-bottom: 3px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chat-msg-bubble {
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  word-break: break-word;
+  position: relative;
+  letter-spacing: -0.1px;
+}
+
+/* macOS iMessage blue bubble for own messages */
+.chat-msg-row.mine .chat-msg-bubble {
+  background: linear-gradient(180deg, #1a8aff 0%, #0071e3 100%);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,113,227,0.25);
+}
+
+/* macOS gray bubble for other staff messages */
+.chat-msg-row.other .chat-msg-bubble {
+  background: #e9e9eb;
+  color: #1d1d1f;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.06);
+}
+
+.chat-msg-time {
+  font-size: 9px;
+  margin-top: 3px;
+  opacity: 0.7;
+}
+
+.chat-msg-row.mine .chat-msg-time {
+  color: rgba(255,255,255,0.85);
+  text-align: right;
+}
+
+.chat-msg-row.other .chat-msg-time {
+  color: var(--text-2);
+}
+
+/* Delete msg button on hover */
+.chat-msg-row .chat-del-btn {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  padding: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-3);
+}
+.chat-msg-row:hover .chat-del-btn {
+  opacity: 1;
+}
+.chat-msg-row .chat-del-btn:hover {
+  color: var(--danger);
+}
+
+/* Input Area — macOS pill style */
+.chat-input-bar {
+  padding: 12px 14px;
+  border-top: 0.5px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.chat-input-field {
+  flex: 1;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.06);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: box-shadow 0.15s ease;
+}
+.chat-input-field:focus {
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.35), 0 0 0 0.5px var(--accent);
+}
+
+.chat-send-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, filter 0.12s ease;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,113,227,0.35);
+}
+.chat-send-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.chat-send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.chat-send-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .chat-panel { width: 100%; }
+}
